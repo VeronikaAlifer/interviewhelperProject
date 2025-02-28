@@ -5,10 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.ITestResult;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 import pages.HomePage;
 import utility.ExtentReportManager;
 
@@ -48,21 +45,28 @@ public class HomePageTest {
         String expectedTitle = "Interview Helper - prepare to technical interview";
         String actualTitle = driver.getTitle();
 
-        Assert.assertEquals(actualTitle, expectedTitle, "Actual title and expected title does not match, but should be.");
+        Assert.assertEquals(actualTitle, expectedTitle,
+                "The page title is incorrect. Expected: " + expectedTitle + " but found: " + actualTitle);
     }
 
     @AfterMethod
     public void tearsDown(ITestResult result) {
-        if(result.getStatus() == ITestResult.SUCCESS){
-            report.pass("Test passed successfully.");
+        try {
+            if (result.getStatus() == ITestResult.SUCCESS) {
+                report.pass("Test passed successfully.");
+            }
+            else if (result.getStatus() == ITestResult.FAILURE) {
+                report.fail(result.getThrowable().getMessage());
+            }
+        } finally {
+            if (driver != null) {
+                driver.quit();
+            }
         }
-        if(result.getStatus() == ITestResult.FAILURE){
-            report.fail(result.getThrowable().getMessage());
-            report.log(Status.FAIL, result.getThrowable().getMessage());
-        }
-        if (driver != null) {
-            driver.quit();
-        }
+    }
+
+    @AfterClass
+    public void tearsDownReporter() {
         extentReports.flush();
     }
 }
