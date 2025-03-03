@@ -19,6 +19,9 @@ public class HomePageTest {
     private ExtentReports extentReports;
     private ExtentTest report;
     private String URL = "https://interviewhelper.web.app/";
+    private static final String LIGHT_THEME = "light";
+    private static final String DARK_THEME = "dark";
+
 
     @BeforeClass
     public void setUpReports() {
@@ -43,19 +46,56 @@ public class HomePageTest {
 
         report.info("Verify the page title");
         String expectedTitle = "Interview Helper - prepare to technical interview";
-        String actualTitle = driver.getTitle();
+        String actualTitle = homePage.getTitle();
 
         Assert.assertEquals(actualTitle, expectedTitle,
                 "The page title is incorrect. Expected: " + expectedTitle + " but found: " + actualTitle);
     }
+
+    @Test
+    public void testThemeButton() {
+        report.info("Open the home page");
+        driver.get(URL);
+
+        report.info("Verify default theme");
+        String actualValue = homePage.getThemeValue();
+        Assert.assertEquals(actualValue, LIGHT_THEME,
+                "The expected theme is incorrect.");
+
+        report.info("Click the theme button");
+        homePage.clickThemeButton();
+
+        report.info("Verify theme");
+        actualValue = homePage.getThemeValue();
+        Assert.assertEquals(actualValue, DARK_THEME,
+                "The expected theme is incorrect. ");
+
+    }
+
+    @Test
+    public void  testOfSideNavButtonPresenceAndFunctionality(){
+        report.info("Open the home page");
+        driver.get(URL);
+
+        report.info("Verify that the SideNav button is displayed");
+        boolean isDisplayed = homePage.isSideNavButtonDisplayed();
+        Assert.assertTrue(isDisplayed, "The sidenav button should be displayed.");
+
+        report.info("Click the SideNav button.");
+        homePage.clickSideNavButton();
+
+        report.info("Verify that the topic panel opens as expected.");
+        boolean isTopicPanelDisplayed = homePage.isTopicPanelDisplayed();
+        Assert.assertTrue(isTopicPanelDisplayed, "The topic panel is not displayed");
+    }
+
 
     @AfterMethod
     public void tearsDown(ITestResult result) {
         try {
             if (result.getStatus() == ITestResult.SUCCESS) {
                 report.pass("Test passed successfully.");
-            }
-            else if (result.getStatus() == ITestResult.FAILURE) {
+            } else if (result.getStatus() == ITestResult.FAILURE) {
                 report.fail(result.getThrowable().getMessage());
             }
         } finally {
