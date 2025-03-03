@@ -1,6 +1,7 @@
+package com.tests;
+
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
-import com.aventstack.extentreports.Status;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
@@ -23,12 +24,12 @@ public class HomePageTest {
     private static final String DARK_THEME = "dark";
 
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setUpReports() {
         extentReports = ExtentReportManager.getInstance();
     }
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     public void setUp(Method method) {
         driver = new ChromeDriver();
         driver.manage().window().maximize();
@@ -37,9 +38,13 @@ public class HomePageTest {
 
         homePage = new HomePage(driver);
         report = extentReports.createTest(method.getName());
+
+        if (report == null) {
+            System.out.println("Report is null in setUp method.");
+        }
     }
 
-    @Test
+    @Test(groups = "smoke")
     public void testPageTitleIsCorrect() {
         report.info("Open the home page");
         driver.get(URL);
@@ -52,7 +57,7 @@ public class HomePageTest {
                 "The page title is incorrect. Expected: " + expectedTitle + " but found: " + actualTitle);
     }
 
-    @Test
+    @Test(groups = {"regression"})
     public void testThemeButton() {
         report.info("Open the home page");
         driver.get(URL);
@@ -72,7 +77,7 @@ public class HomePageTest {
 
     }
 
-    @Test
+    @Test(groups = {"regression"})
     public void  testOfSideNavButtonPresenceAndFunctionality(){
         report.info("Open the home page");
         driver.get(URL);
@@ -90,7 +95,7 @@ public class HomePageTest {
     }
 
 
-    @AfterMethod
+    @AfterMethod(alwaysRun = true)
     public void tearsDown(ITestResult result) {
         try {
             if (result.getStatus() == ITestResult.SUCCESS) {
@@ -105,7 +110,7 @@ public class HomePageTest {
         }
     }
 
-    @AfterClass
+    @AfterClass(alwaysRun = true)
     public void tearsDownReporter() {
         extentReports.flush();
     }
