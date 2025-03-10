@@ -10,7 +10,7 @@
             </run>
         </groups>
       <classes>
-          <class name="com.tests.HomePageTest"></class>
+          <class name="com.interHelperPrTest.HomePageTest"></class>
       </classes>
     </test>
 </suite>
