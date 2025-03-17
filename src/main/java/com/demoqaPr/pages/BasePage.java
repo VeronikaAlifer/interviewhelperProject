@@ -1,13 +1,20 @@
 package com.demoqaPr.pages;
 
 import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 public class BasePage {
 
-    WebDriver driver;
+    protected WebDriver driver;
+    private WebDriverWait wait;
+
 
     public BasePage(WebDriver driver){
         this.driver = driver;
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
     }
 
@@ -19,10 +26,9 @@ public class BasePage {
         }
     }
 
-    protected BasePage enterTextIntoTextBox(By by, String value){
-       WebElement element = driver.findElement(by);
+    protected void setText(By by, String value){
+       WebElement element = wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(by)));
        element.click();
        element.sendKeys(value);
-       return new BasePage(driver);
     }
 }

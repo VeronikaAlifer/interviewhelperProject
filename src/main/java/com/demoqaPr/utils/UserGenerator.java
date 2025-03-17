@@ -18,7 +18,7 @@ public class UserGenerator {
     }
 
     public static String getRandomPhone() {
-        return "48" + getRandomValue();
+        return "489" + getRandomValue();
     }
 
     public static String getDateOfBirth() {

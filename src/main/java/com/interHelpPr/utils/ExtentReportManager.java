@@ -1,4 +1,4 @@
-package com.interHelpPr.pages.utility;
+package com.interHelpPr.utils;
 
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
