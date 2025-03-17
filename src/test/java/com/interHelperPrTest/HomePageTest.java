@@ -2,13 +2,14 @@ package com.interHelperPrTest;
 
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
+import com.interHelpPr.utils.ExtentReportManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
 import com.interHelpPr.pages.HomePage;
-import com.interHelpPr.pages.utility.ExtentReportManager;
+
 
 import java.lang.reflect.Method;
 import java.time.Duration;
